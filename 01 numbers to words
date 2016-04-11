@@ -1,0 +1,201 @@
+class Solution {
+public:
+    string ToString(int num)
+    {
+        char t[50];
+        string str;
+        sprintf(t, "%d", num);
+        str = t;
+        return str;
+    }
+    
+    int Toint(string str)
+    {
+        char *t;
+		t = new char;
+        str.copy(t, str.length(), 0);
+        return atoi(t);
+    }
+    
+    string numberToWords(int num) {
+        if(num == 0)
+        {
+            return "zero";
+        }
+        
+        string str = ToString(num);
+        
+        if(num > 999999999)
+        {
+            string s1 = str.substr(str.length()-9);
+            int n1 = Toint(str);
+            string s2 = str.substr((str.length() - 9), 9);
+            
+            string s = Millions(s1) +  " Billion "  + Millions(s2);
+    		return s;
+        }
+        else{
+			string s = Millions(str);
+            return s;
+        }
+    }
+    
+private:
+    string Millions(string str)
+    {
+        int n = Toint(str);
+        if(n>999999)
+        {
+            string s1 = str.substr(0, str.length() - 6);
+            int n1 = Toint(str);
+            string s2 = str.substr(str.length() -6, 6);
+            
+            string s = Thousands(s1) +  " Million "  + Thousands(s2);
+            return s;
+        }
+        else{
+            return Thousands(ToString(n));
+        }
+    }
+    
+    string Thousands(string str)
+    {
+    	int n = Toint(str);
+    	if(n > 999){
+    		string s1 = str.substr(0,str.length() - 3);
+    		int n1 = Toint(str);
+    		string s2 = str.substr(str.length() - 3, 3);
+    		
+    		string s = Hundreds(s1)+  " Thousand "  + Hundreds(s2);
+    		return s;
+    	}
+    	else{
+    		return Hundreds(ToString(n));
+    	}
+    }
+    
+    string Hundreds(string str)
+    {
+    	int n = Toint(str);
+		char ch;
+		if(n > 10)
+    		ch=str[str.length()-1];
+		else
+			ch = str[0];
+
+    	if(n < 10){
+    		return Digit(ch);
+    	}
+    	else if(n == 10){
+    		return "Ten";
+    	}
+    	else if(n > 10 && n < 20)
+    	{
+    		return Teen(str);
+    	}
+    	else if(n >= 20 && n < 100)
+    	{
+    		return Ty(str);
+    	}
+    	else if(n >= 100 && n <= 999)
+    	{
+    		char c1 = str[0];
+    		string s = Digit(c1) +  " Hundred ";
+    		
+    		char c2 = str[1];
+    		char c3 = str[2];
+    		if(c2 == '0'){
+    			return c3 != '0' ? s + Digit(c3) : s;	
+    		}
+    		if(c2 == '1'){
+    			return s  + Teen(str.substr(str.length() - 2,2));
+    		}
+    		else{
+    			return s  + Ty(str.substr(str.length() - 2,2));
+    		}
+    	}
+    }
+    
+    string Teen(string str)
+    {
+    	switch(Toint(str)){
+    		case 10:
+    		return "Ten";
+    		case 11:
+    		return "Eleven";
+    		case 12:
+    		return "Twelve";
+    		case 13:
+    		return "Thirteen";
+    		case 14:
+    		return "Fourteen";
+    		case 15:
+    		return "Fifteen";
+    		case 16:
+    		return "Sixteen";
+    		case 17:
+    		return "Seventeen";
+    		case 18:
+    		return "Eighteen";
+    		case 19:
+    		return "Nineteen";
+    	//	default :
+    	//	throw new ArgumentException(input should be from 11 to 19 ONLY.);
+    	}
+    }
+    
+    string Ty(string str)
+    {
+    	char c1 = str[0];
+    	char c2 = str[1];
+    	string space = c2 == '0' ? " ": " " ;
+    	switch(c1){
+    		case '2':
+    		return "Twenty" +space+ Digit(c2);
+    		case '3':
+    		return "Thirty" +space+ Digit(c2);
+    		case '4':
+    		return "Forty" +space+ Digit(c2);
+    		case '5':
+    		return "Fifty" +space+ Digit(c2);
+    		case '6':
+    		return "Sixty" +space+ Digit(c2);
+    		case '7':
+    		return "Seventy" +space+ Digit(c2);
+    		case '8':
+    		return "Eighty" +space+ Digit(c2);
+    		case '9':
+    		return "Ninety" +space+ Digit(c2);
+    	//	default :
+    	//	throw new ArgumentException(string.Format(input should between [20,99], but got {0},c1));
+    	}
+    }
+    
+    string Digit(char c)
+    {
+    	switch(c){
+    		case '0':
+    		return "";
+    		case '1':
+    		return "One";
+    		case '2':
+    		return "Two";
+    		case '3':
+    		return "Three";
+    		case '4':
+    		return "Four";
+    		case '5':
+    		return "Five";
+    		case '6':
+    		return "Six";
+    		case '7':
+    		return "Seven";
+    		case '8':
+    		return "Eight";
+    		case '9':
+    		return "Nine";
+    	//	default :
+    	//	throw new ArgumentException(input should beteen [0-9]);
+    	}
+    }
+};
