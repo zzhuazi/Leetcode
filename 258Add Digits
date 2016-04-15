@@ -1,0 +1,30 @@
+//Given a non-negative integer num, repeatedly add all its digits until the result has only one digit. //
+#include <iostream>
+using namespace std;
+//递归算法
+int fun(int num, int s)
+{
+	if(num != 0)
+	{
+		s+= (num % 10);
+		num = num / 10;
+		fun(num, s);
+	}
+	else if(num == 0 && s > 10)
+	{
+		fun(s,0);
+	}
+	else
+		return s;
+}
+//对数据进行研究后的公式。
+int addDigits(int num){
+    return (1 + (num -1) % 9);
+  } 
+ 
+void main()
+{
+	int a = fun(100,0);
+	cout << a;
+	system("pause");
+}
